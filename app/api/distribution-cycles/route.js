@@ -41,6 +41,12 @@ export async function POST(request) {
   if (!Number.isFinite(households) || households < 0) {
     return NextResponse.json({ error: 'Households covered must be zero or more.' }, { status: 400 });
   }
+if (households > qty) {
+    return NextResponse.json(
+      { error: 'Households covered cannot exceed the quantity distributed.' },
+      { status: 400 }
+    );
+  }
 
   // Step 6: INSERT — RLS policy "distribution_insert" additionally enforces
   // that district_id must match the officer's own profile.district_id.
